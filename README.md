@@ -15,10 +15,15 @@ Nothing here talks to a sonn server directly, and nothing is stored — the page
 | Path | Purpose |
 | --- | --- |
 | `spotify/index.html` | Spotify OAuth redirect target |
-| `404.html` | Handles the path-encoded form of the same redirect |
+| `tidal/index.html` | TIDAL OAuth redirect target |
+| `404.html` | Handles the path-encoded form of the Spotify redirect |
 
 The server passes its own callback URL in the `state` parameter, percent-encoded. The page reads
 `state` plus `code` from the query string and redirects to `<state>?code=<code>`.
+
+The TIDAL page works the same way, but only redirects to an `http:` or `https:` address, and also
+passes on `error` and `error_description` so the server can show why TIDAL refused a login. Its URL
+is registered in the TIDAL developer portal and as `TIDAL_PUBLIC_REDIRECT_URI` in `sonn-audio/core`.
 
 `404.html` covers an older variant where the local URL was appended to the path
 (`/callbacks/spotify/<encoded-url>`) instead of passed as `state`. GitHub Pages serves it for any
